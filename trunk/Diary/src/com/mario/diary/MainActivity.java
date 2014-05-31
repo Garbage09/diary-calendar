@@ -93,7 +93,7 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	private void initDiaryFragment() {
-		diaryFragment = new FragmentDiary();
+		diaryFragment = new FragmentDiary(this);
 		// Attach to the activity
 		FragmentTransaction t = getSupportFragmentManager().beginTransaction();
 		t.replace(R.id.calendarView, diaryFragment);

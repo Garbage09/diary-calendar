@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg_list_view_diary">#EEEEEE</color>
+    <color name="bg_pink">#FAF2F5</color>    
+    <color name="bg_yellow_green">#FFFFEA</color>
+    <color name="bg_green">#A5FFB2</color>
+    <color name="bg_blue">#4B93FF</color>    
+    
+    <color name="black">#000000</color>
+    <color name="red">#FF0005</color>
+    <color name="pink">#CB4646</color>
+    
+</resources>
+
