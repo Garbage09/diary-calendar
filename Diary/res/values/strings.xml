@@ -8,4 +8,12 @@
     <string name="calendar">Calendar</string>
     <string name="diary">Diary</string>
 
+    <!-- This is test data, will be removed -->
+    <string name="test_day">15</string>
+    <string name="test_day_of_week">( Sun )</string>
+    <string name="test_icon1">Diary Icon</string>
+    <string name="test_content_diary">This is hard test data. Today is Sunday, it\'s nice day.\nSecond line\nThird line\nFourth line</string>
+    <string name="test_event_schedule">7:00 - 06/08</string>
+    <string name="test_event_title">This is title of event</string>
+    <string name="test_event_comment">This is comment of event\nSecond line\nThird line.</string>
 </resources>
