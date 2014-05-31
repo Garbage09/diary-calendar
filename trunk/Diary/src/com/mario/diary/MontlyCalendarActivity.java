@@ -1,6 +1,5 @@
 package com.mario.diary;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import android.os.Bundle;
