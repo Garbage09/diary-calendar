@@ -1,17 +1,21 @@
 package com.mario.diary.adapter;
 
 import java.util.ArrayList;
-
-import com.mario.diary.common.SettingConstants;
-import com.mario.diary.model.Diary;
-import com.mario.diary.R;
+import java.util.Calendar;
+import java.util.Date;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.mario.diary.R;
+import com.mario.diary.common.SettingConstants;
+import com.mario.diary.common.Utils;
+import com.mario.diary.model.Diary;
 
 public class DiaryListAdapter extends ArrayAdapter<Diary> {
 
@@ -33,20 +37,51 @@ public class DiaryListAdapter extends ArrayAdapter<Diary> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
 		View view = convertView;
+		Log.i("DiaryListAdapter", "position: " + position);
+		Log.i("DiaryListAdapter", "currentRealPostion: " + currentRealPostion);
+
 		if (view == null) {
 			LayoutInflater li = (LayoutInflater) mContext
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = li.inflate(mResource, null);
-			final Diary diary = (Diary) mItems.get(currentRealPostion);
-
-			TextView dayTextView = (TextView) view
-					.findViewById(R.id.dayTextView);
-			dayTextView.setText(String.valueOf(diary.getDay()));
-
-			TextView dowTextView = (TextView) view
-					.findViewById(R.id.dayOfWeekTextView);
-			dowTextView.setText(String.valueOf(diary.getDayOfWeek()));
 		}
+
+		TextView dayTextView = (TextView) view.findViewById(R.id.dayTextView);
+		TextView dowTextView = (TextView) view
+				.findViewById(R.id.dayOfWeekTextView);
+		TextView diaryTextView = (TextView) view
+				.findViewById(R.id.diaryTextView);
+
+		// final Diary diary = (Diary) mItems.get(position);
+		//
+		// Log.i("DiaryListAdapter", "Day of month: " + diary.getDay());
+		// Log.i("DiaryListAdapter", "Day of week: " + diary.getDayOfWeek());
+
+		// dayTextView.setText(String.valueOf(diary.getDay()));
+		// dowTextView.setText(String.valueOf(diary.getDayOfWeek()));
+		// diaryTextView.setText(String.valueOf(diary.getStrContentDiary()));
+
+		Calendar c = Calendar.getInstance();
+		c.add(Calendar.DATE, position);
+		int year = c.get(Calendar.YEAR);
+
+		int doy = c.get(Calendar.DAY_OF_YEAR);
+		int month = Utils.getMonthFromDayOfYear(c, doy) + 1;
+		int numDaysInMonth = Utils.getLastDayInMonth(c, doy);
+
+		int dom = Utils.getDayOfMonthFromDayOfYear(c, doy);
+		String strDow = Utils.getDayOfWeekFromDayOfYear(c, doy);
+		String strDiary = c.getTime().toString() + " - " + String.valueOf(year);
+//		if (dom > numDaysInMonth) {
+//			dom = 1;
+//		} else if (dom > position && position > mItems.size()) {
+//			dom++;
+//		}
+
+		dayTextView.setText(String.valueOf(dom));
+		dowTextView.setText(strDow);
+		diaryTextView.setText(strDiary);
+
 		return view;
 	}
 
@@ -54,12 +89,6 @@ public class DiaryListAdapter extends ArrayAdapter<Diary> {
 	public int getCount() {
 		// TODO Auto-generated method stub
 		return SettingConstants.NUMBER_OF_DIARY_RECORDS;
-	}
-
-	@Override
-	public Diary getItem(int position) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -71,5 +100,9 @@ public class DiaryListAdapter extends ArrayAdapter<Diary> {
 	public void setCurrentRealPosition(int position) {
 		// TODO Auto-generated method stub
 		currentRealPostion = position;
+	}
+
+	public int getCurrentRealPosition() {
+		return currentRealPostion;
 	}
 }

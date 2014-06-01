@@ -2,15 +2,17 @@ package com.mario.diary.model;
 
 public class Diary {
 	private int iDay;
-	private int iDayOfWeek;
+	private String strDayOfWeek;
+	private String strContentDiary;
 
 	public Diary() {
 	}
 
-	public Diary(int day, int dow) {
+	public Diary(int day, String dow, String diary) {
 		// TODO Auto-generated constructor stub
 		this.iDay = day;
-		this.iDayOfWeek = dow;
+		this.strDayOfWeek = dow;
+		this.strContentDiary = diary;
 	}
 
 	public int getDay() {
@@ -21,12 +23,20 @@ public class Diary {
 		this.iDay = strDay;
 	}
 
-	public int getDayOfWeek() {
-		return iDayOfWeek;
+	public String getDayOfWeek() {
+		return strDayOfWeek;
 	}
 
-	public void setDayOfWeek(int strDayOfWeek) {
-		this.iDayOfWeek = strDayOfWeek;
+	public void setDayOfWeek(String strDayOfWeek) {
+		this.strDayOfWeek = strDayOfWeek;
+	}
+
+	public String getStrContentDiary() {
+		return strContentDiary;
+	}
+
+	public void setStrContentDiary(String strContentDiary) {
+		this.strContentDiary = strContentDiary;
 	}
 
 }
