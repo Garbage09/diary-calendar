@@ -1,18 +1,16 @@
 package com.mario.diary.adapter;
 
-import com.mario.diary.model.Diary;
-
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 
 public class DiaryListAdapterWrapper extends BaseAdapter {
 
-	private ArrayAdapter<Diary> mListAdapter;
+	private DiaryListAdapter mListAdapter;
 	private int mListAdapterCount;
 
-	public DiaryListAdapterWrapper(ArrayAdapter<Diary> listAdapter) {
+	public DiaryListAdapterWrapper(DiaryListAdapter listAdapter) {
 		if (listAdapter == null) {
 			throw new IllegalArgumentException("listAdapter cannot be null.");
 		}
@@ -25,12 +23,18 @@ public class DiaryListAdapterWrapper extends BaseAdapter {
 	public int getCount() {
 		// TODO Auto-generated method stub
 		return Integer.MAX_VALUE;
+		//return 50;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
-		((DiaryListAdapter) mListAdapter).setCurrentRealPosition(position);
+		Log.i("DiaryListAdapterWrapper", "**********************");
+		Log.i("DiaryListAdapterWrapper", "position: " + position);
+		Log.i("DiaryListAdapterWrapper", "mListAdapterCount: " + mListAdapterCount);
+		Log.i("DiaryListAdapterWrapper", "Before set, position: " + mListAdapter.getCurrentRealPosition());
+		mListAdapter.setCurrentRealPosition(position);
+		Log.i("DiaryListAdapterWrapper", "After set, position: " + mListAdapter.getCurrentRealPosition());		
 		return mListAdapter.getView(position % mListAdapterCount, convertView,
 				parent);
 	}
