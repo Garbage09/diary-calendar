@@ -23,12 +23,13 @@ public class DiaryListAdapterWrapper extends BaseAdapter {
 	public int getCount() {
 		// TODO Auto-generated method stub
 		return Integer.MAX_VALUE;
-		//return 20;
+		//return 50;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
+		Log.i("DiaryListAdapterWrapper", "**********************");
 		Log.i("DiaryListAdapterWrapper", "position: " + position);
 		Log.i("DiaryListAdapterWrapper", "mListAdapterCount: " + mListAdapterCount);
 		Log.i("DiaryListAdapterWrapper", "Before set, position: " + mListAdapter.getCurrentRealPosition());
