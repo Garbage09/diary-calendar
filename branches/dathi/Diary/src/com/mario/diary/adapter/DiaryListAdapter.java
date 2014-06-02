@@ -1,9 +1,6 @@
 package com.mario.diary.adapter;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,29 +18,27 @@ public class DiaryListAdapter extends ArrayAdapter<Diary> {
 
 	private Context mContext;
 	private int mResource;
-	private ArrayList<Diary> mItems;
-	private int currentRealPostion;
+	private int currentRealPostion;	
 
-	public DiaryListAdapter(Context context, int resource,
-			ArrayList<Diary> objects) {
-		super(context, resource, objects);
+	public DiaryListAdapter(Context context, int resource) {
+		super(context, resource);
 		// TODO Auto-generated constructor stub
 		mContext = context;
 		mResource = resource;
-		mItems = objects;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
-		View view = convertView;
+		View view = convertView;		
 		Log.i("DiaryListAdapter", "position: " + position);
 		Log.i("DiaryListAdapter", "currentRealPostion: " + currentRealPostion);
-
+		
 		if (view == null) {
 			LayoutInflater li = (LayoutInflater) mContext
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = li.inflate(mResource, null);
+			Log.i("DiaryListAdapter", "VIEW = NULL, position: " + position);
 		}
 
 		TextView dayTextView = (TextView) view.findViewById(R.id.dayTextView);
@@ -52,31 +47,17 @@ public class DiaryListAdapter extends ArrayAdapter<Diary> {
 		TextView diaryTextView = (TextView) view
 				.findViewById(R.id.diaryTextView);
 
-		// final Diary diary = (Diary) mItems.get(position);
-		//
-		// Log.i("DiaryListAdapter", "Day of month: " + diary.getDay());
-		// Log.i("DiaryListAdapter", "Day of week: " + diary.getDayOfWeek());
-
-		// dayTextView.setText(String.valueOf(diary.getDay()));
-		// dowTextView.setText(String.valueOf(diary.getDayOfWeek()));
-		// diaryTextView.setText(String.valueOf(diary.getStrContentDiary()));
-
-		Calendar c = Calendar.getInstance();
-		c.add(Calendar.DATE, position);
+		Calendar c = Calendar.getInstance();		
+		c.add(Calendar.DATE, currentRealPostion - SettingConstants.HALF_MAX_VALUE);
+		
 		int year = c.get(Calendar.YEAR);
-
-		int doy = c.get(Calendar.DAY_OF_YEAR);
-		int month = Utils.getMonthFromDayOfYear(c, doy) + 1;
-		int numDaysInMonth = Utils.getLastDayInMonth(c, doy);
-
-		int dom = Utils.getDayOfMonthFromDayOfYear(c, doy);
-		String strDow = Utils.getDayOfWeekFromDayOfYear(c, doy);
-		String strDiary = c.getTime().toString() + " - " + String.valueOf(year);
-//		if (dom > numDaysInMonth) {
-//			dom = 1;
-//		} else if (dom > position && position > mItems.size()) {
-//			dom++;
-//		}
+		int month = c.get(Calendar.MONTH) + 1;
+		int dom = c.get(Calendar.DAY_OF_MONTH);
+		int numDaysInMonth = c.getActualMaximum(Calendar.DAY_OF_MONTH);
+		
+		int dow = c.get(Calendar.DAY_OF_WEEK);
+		String strDow = Utils.getNameDayOfWeek(dow);
+		String strDiary = c.getTime().toString() + " - " + month + " - " + numDaysInMonth;
 
 		dayTextView.setText(String.valueOf(dom));
 		dowTextView.setText(strDow);
