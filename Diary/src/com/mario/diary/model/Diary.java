@@ -1,42 +1,42 @@
 package com.mario.diary.model;
 
 public class Diary {
-	private int iDay;
-	private String strDayOfWeek;
 	private String strContentDiary;
+	private String iEventId;
+	private long lCreatedDate;
 
 	public Diary() {
 	}
 
-	public Diary(int day, String dow, String diary) {
+	public Diary(String content, String eventId, long createdDate) {
 		// TODO Auto-generated constructor stub
-		this.iDay = day;
-		this.strDayOfWeek = dow;
-		this.strContentDiary = diary;
+		this.strContentDiary = content;
+		this.iEventId = eventId;
+		this.lCreatedDate = createdDate;
 	}
 
-	public int getDay() {
-		return iDay;
-	}
-
-	public void setDay(int strDay) {
-		this.iDay = strDay;
-	}
-
-	public String getDayOfWeek() {
-		return strDayOfWeek;
-	}
-
-	public void setDayOfWeek(String strDayOfWeek) {
-		this.strDayOfWeek = strDayOfWeek;
-	}
-
-	public String getStrContentDiary() {
+	public String getContentDiary() {
 		return strContentDiary;
 	}
 
-	public void setStrContentDiary(String strContentDiary) {
+	public void setContentDiary(String strContentDiary) {
 		this.strContentDiary = strContentDiary;
+	}
+
+	public String getEventId() {
+		return iEventId;
+	}
+
+	public void setEventId(String iEventId) {
+		this.iEventId = iEventId;
+	}
+
+	public long getCreatedDate() {
+		return lCreatedDate;
+	}
+
+	public void setCreatedDate(long lCreatedDate) {
+		this.lCreatedDate = lCreatedDate;
 	}
 
 }
