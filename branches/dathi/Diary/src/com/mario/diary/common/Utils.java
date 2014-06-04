@@ -1,5 +1,7 @@
 package com.mario.diary.common;
 
+import java.util.Date;
+
 public class Utils {
 	
 	public static String getNameDayOfWeek(int dow) {
@@ -28,5 +30,14 @@ public class Utils {
 			break;
 		}
 		return result;
+	}
+	
+	public static long convertDateToLong(Date d) {
+		long result = 0;
+		return result;
+	}
+	
+	public static Date convertLongToDate(long l) {
+		return null;	
 	}
 }
