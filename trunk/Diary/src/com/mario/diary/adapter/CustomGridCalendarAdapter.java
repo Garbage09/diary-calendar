@@ -1,4 +1,4 @@
-package com.mario.diary.view;
+package com.mario.diary.adapter;
 
 import hirondelle.date4j.DateTime;
 

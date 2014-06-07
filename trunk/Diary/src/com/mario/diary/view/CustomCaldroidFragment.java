@@ -1,5 +1,6 @@
 package com.mario.diary.view;
 
+import com.mario.diary.adapter.CustomGridCalendarAdapter;
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidGridAdapter;
 
