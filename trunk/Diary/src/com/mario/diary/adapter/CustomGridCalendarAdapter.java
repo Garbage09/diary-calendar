@@ -2,29 +2,40 @@ package com.mario.diary.adapter;
 
 import hirondelle.date4j.DateTime;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TimeZone;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.AbsListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mario.diary.R;
+import com.mario.diary.common.EventManager;
+import com.mario.diary.model.EventData;
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidGridAdapter;
 
 public class CustomGridCalendarAdapter extends CaldroidGridAdapter {
-
+	private ArrayList<EventData> eventList;
 	public CustomGridCalendarAdapter(Context context, int month, int year,
 			HashMap<String, Object> caldroidData,
 			HashMap<String, Object> extraData) {
 		super(context, month, year, caldroidData, extraData);
+		long startTime = datetimeList.get(0).getMilliseconds(TimeZone.getDefault());
+		long endTime = datetimeList.get(datetimeList.size() - 1).getMilliseconds(TimeZone.getDefault());
+		this.eventList = EventManager.getInstance().getEvents(startTime, endTime);
+		if(eventList != null){
+			for(int i = 0; i < eventList.size(); i++){
+				Log.d("dmquan","event title:"+ eventList.get(i).title);
+			}
+		}
 	}
 
 	@Override
@@ -44,6 +55,10 @@ public class CustomGridCalendarAdapter extends CaldroidGridAdapter {
 		int rightPadding = cellView.getPaddingRight();
 
 		TextView dayOfMonthTextView = (TextView) cellView.findViewById(R.id.dayOfMonthTextView);
+		TextView firstEventTextView = (TextView) cellView.findViewById(R.id.firstEventTextView);
+		TextView secondEventTextView = (TextView) cellView.findViewById(R.id.secondEventTextView);
+		TextView thirdEventTextView = (TextView) cellView.findViewById(R.id.thirdEventTextView);
+		TextView fourthfirstEventTextView = (TextView) cellView.findViewById(R.id.secondEventTextView);
 
 		dayOfMonthTextView.setTextColor(Color.BLACK);
 
@@ -105,6 +120,40 @@ public class CustomGridCalendarAdapter extends CaldroidGridAdapter {
 		}
 
 		dayOfMonthTextView.setText("" + dateTime.getDay());
+		ArrayList<EventData> eventOfDay = getEventByDate(dateTime);
+		if(eventOfDay != null){
+			switch (eventOfDay.size()) {
+			case 1:
+				firstEventTextView.setVisibility(View.VISIBLE);
+				firstEventTextView.setText(eventOfDay.get(0).title);
+				break;
+			case 2:
+				firstEventTextView.setVisibility(View.VISIBLE);
+				firstEventTextView.setText(eventOfDay.get(0).title);
+				secondEventTextView.setVisibility(View.VISIBLE);
+				secondEventTextView.setText(eventOfDay.get(1).title);
+				break;
+			case 3:
+				firstEventTextView.setVisibility(View.VISIBLE);
+				firstEventTextView.setText(eventOfDay.get(0).title);
+				secondEventTextView.setVisibility(View.VISIBLE);
+				secondEventTextView.setText(eventOfDay.get(1).title);
+				thirdEventTextView.setVisibility(View.VISIBLE);
+				thirdEventTextView.setText(eventOfDay.get(2).title);
+				break;
+
+			default:
+				firstEventTextView.setVisibility(View.VISIBLE);
+				firstEventTextView.setText(eventOfDay.get(0).title);
+				secondEventTextView.setVisibility(View.VISIBLE);
+				secondEventTextView.setText(eventOfDay.get(1).title);
+				thirdEventTextView.setVisibility(View.VISIBLE);
+				thirdEventTextView.setText(eventOfDay.get(2).title);
+				fourthfirstEventTextView.setVisibility(View.VISIBLE);
+				fourthfirstEventTextView.setText(eventOfDay.get(3).title);
+				break;
+			}
+		}
 
 		// Somehow after setBackgroundResource, the padding collapse.
 		// This is to recover the padding
@@ -115,6 +164,47 @@ public class CustomGridCalendarAdapter extends CaldroidGridAdapter {
 		setCustomResources(dateTime, cellView, dayOfMonthTextView);
 
 		return cellView;
+	}
+	
+	@Override
+	public void setAdapterDateTime(DateTime dateTime) {
+		super.setAdapterDateTime(dateTime);
+		long startTime = datetimeList.get(0).getMilliseconds(TimeZone.getDefault());
+		long endTime = datetimeList.get(datetimeList.size() - 1).getMilliseconds(TimeZone.getDefault());
+		this.eventList = EventManager.getInstance().getEvents(startTime, endTime);
+		if(eventList != null){
+			for(int i = 0; i < eventList.size(); i++){
+				Log.d("dmquan","event title:"+ eventList.get(i).title);
+			}
+		}
+		
+	}
+	
+	private ArrayList<EventData> getEventByDate(DateTime dateTime){
+		ArrayList<EventData> eventOfDay = new ArrayList<EventData>();
+		if(eventList != null){
+			for(int i = 0; i < eventList.size(); i++){
+				if(isEventInDate(eventList.get(i), dateTime)){
+					eventOfDay.add(eventList.get(i));
+				}
+			}
+		}
+		if(eventOfDay.size() > 0){
+			return eventOfDay;
+		}
+		return null;
+	}
+
+	private boolean isEventInDate(EventData eventData, DateTime dateTime) {
+		long startTime = dateTime.getMilliseconds(TimeZone.getDefault());
+		long endTime = startTime + 24*60*60*1000;
+		
+		if( (eventData.start >= startTime && eventData.start <= endTime) 
+				|| (eventData.end >= startTime && eventData.end <= endTime)  
+				|| (eventData.start < startTime && eventData.end > endTime)){
+			return true;
+		}
+		return false;
 	}
 
 }

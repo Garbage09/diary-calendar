@@ -1,6 +1,7 @@
 package com.mario.diary;
 
 import java.util.Calendar;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -10,6 +11,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+import com.mario.diary.common.EventManager;
+import com.mario.diary.common.SettingServices;
 import com.mario.diary.view.CustomCaldroidFragment;
 import com.roomorama.caldroid.CaldroidFragment;
 
@@ -27,6 +30,7 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		init();
 		setContentView(R.layout.activity_main);
 		calendarButton = (Button) findViewById(R.id.calendarButton);
 		diaryButton = (Button) findViewById(R.id.diaryButton);
@@ -45,6 +49,11 @@ public class MainActivity extends FragmentActivity {
 			}
 		});
 		selectFrag(ActiveView.CALENDAR);
+	}
+
+	private void init() {
+		EventManager.getInstance().init(this);
+		SettingServices.getInstance().init(this);
 	}
 
 	@Override
