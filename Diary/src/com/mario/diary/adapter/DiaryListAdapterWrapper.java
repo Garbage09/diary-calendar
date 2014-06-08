@@ -23,7 +23,6 @@ public class DiaryListAdapterWrapper extends BaseAdapter {
 	public int getCount() {
 		// TODO Auto-generated method stub
 		return Integer.MAX_VALUE;
-		//return 50;
 	}
 
 	@Override
