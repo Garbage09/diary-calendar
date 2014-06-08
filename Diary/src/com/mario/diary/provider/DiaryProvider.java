@@ -5,6 +5,7 @@ import com.mario.diary.model.Diary;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.provider.BaseColumns;
 
 public class DiaryProvider {
@@ -18,6 +19,7 @@ public class DiaryProvider {
 
 	public static int addDiary(Context context, Diary diary) {
 		ContentValues cv = new ContentValues();
+		cv.put(Columns._ID, diary.getDiaryId());
 		cv.put(Columns.TEXT_CONTENT, diary.getContentDiary());
 		cv.put(Columns.CREATED_DATE, diary.getCreatedDate());
 		cv.put(Columns.EVENT_ID, diary.getEventId());
@@ -48,7 +50,47 @@ public class DiaryProvider {
 	}
 
 	private static boolean isExist(Context context, Diary diary) {
-		// TODO Auto-generated method stub
-		return false;
+		String selection = String.format(
+				"%s = %s AND %s = %s AND %s = \"%s\" AND %s = \"%s\"",
+				Columns._ID, String.valueOf(diary.getDiaryId()),
+				Columns.CREATED_DATE, String.valueOf(diary.getCreatedDate()),
+				Columns.TEXT_CONTENT, diary.getContentDiary(),
+				Columns.EVENT_ID, diary.getEventId());
+
+		DatabaseHandler db = DatabaseHandler.getDatabase(context);
+
+		Cursor c = db.query(TABLE_NAME, null, selection, null, null);
+
+		if (c == null) {
+			return false;
+		}
+
+		if (c.getCount() == 0) {
+			c.close();
+			return false;
+		}
+
+		c.close();
+		return true;
 	}
+
+	public static Diary getDiaryById(Context context, long diaryId) {
+		String selection = String.format("%s = %s", Columns._ID,
+				String.valueOf(diaryId));
+
+		DatabaseHandler db = DatabaseHandler.getDatabase(context);
+
+		Cursor c = db.query(TABLE_NAME, null, selection, null, null);
+
+		if (c.getCount() > 0) {
+			c.moveToFirst();
+			Diary diary = new Diary();
+			diary.setContentDiary(c.getString(0));
+			diary.setCreatedDate(c.getLong(1));
+			diary.setEventId(c.getString(2));
+			return diary;
+		}
+		return null;
+	}
+
 }
