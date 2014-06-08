@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHandler {
 
 	private final static int DATABASE_VERSION = 1;
-	private final static String DATABASE_NAME = "mShoppingDB";
+	private final static String DATABASE_NAME = "mDiaryDB";
 	
 	private static DatabaseHandler mInstance = new DatabaseHandler();
 

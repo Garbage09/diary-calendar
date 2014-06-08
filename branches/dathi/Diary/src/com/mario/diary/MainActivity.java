@@ -11,6 +11,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.mario.diary.view.CustomCaldroidFragment;
+import com.mario.diary.view.FragmentDiary;
 import com.roomorama.caldroid.CaldroidFragment;
 
 public class MainActivity extends FragmentActivity {

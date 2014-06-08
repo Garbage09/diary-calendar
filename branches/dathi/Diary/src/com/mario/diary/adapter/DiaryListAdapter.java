@@ -13,6 +13,7 @@ import com.mario.diary.R;
 import com.mario.diary.common.SettingConstants;
 import com.mario.diary.common.Utils;
 import com.mario.diary.model.Diary;
+import com.mario.diary.provider.DiaryProvider;
 
 public class DiaryListAdapter extends ArrayAdapter<Diary> {
 
@@ -27,6 +28,9 @@ public class DiaryListAdapter extends ArrayAdapter<Diary> {
 		mResource = resource;
 	}
 
+	private static int countNull = 0;
+	private static int count = 0;
+	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
@@ -39,7 +43,9 @@ public class DiaryListAdapter extends ArrayAdapter<Diary> {
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = li.inflate(mResource, null);
 			Log.i("DiaryListAdapter", "VIEW = NULL, position: " + position);
+			countNull++;
 		}
+		count++;
 
 		TextView dayTextView = (TextView) view.findViewById(R.id.dayTextView);
 		TextView dowTextView = (TextView) view
@@ -61,8 +67,12 @@ public class DiaryListAdapter extends ArrayAdapter<Diary> {
 
 		dayTextView.setText(String.valueOf(dom));
 		dowTextView.setText(strDow);
-		diaryTextView.setText(strDiary);
-
+		
+		//Diary diary = new Diary(strDiary, null, c.getTimeInMillis()/1000);		
+		diaryTextView.setText(String.valueOf(countNull) + " - " + String.valueOf(count));
+		//DiaryProvider.addDiary(mContext, diary);
+		
+		
 		return view;
 	}
 
