@@ -1,6 +1,7 @@
 package com.mario.diary.model;
 
 public class Diary {
+	private long lDiaryId;
 	private String strContentDiary;
 	private String iEventId;
 	private long lCreatedDate;
@@ -8,8 +9,8 @@ public class Diary {
 	public Diary() {
 	}
 
-	public Diary(String content, String eventId, long createdDate) {
-		// TODO Auto-generated constructor stub
+	public Diary(long diaryId, String content, String eventId, long createdDate) {
+		this.lDiaryId = diaryId;
 		this.strContentDiary = content;
 		this.iEventId = eventId;
 		this.lCreatedDate = createdDate;
@@ -37,6 +38,14 @@ public class Diary {
 
 	public void setCreatedDate(long lCreatedDate) {
 		this.lCreatedDate = lCreatedDate;
+	}
+
+	public long getDiaryId() {
+		return lDiaryId;
+	}
+
+	public void setDiaryId(long lDiaryId) {
+		this.lDiaryId = lDiaryId;
 	}
 
 }

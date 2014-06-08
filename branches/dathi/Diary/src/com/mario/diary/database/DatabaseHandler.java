@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHandler {
 
 	private final static int DATABASE_VERSION = 1;
-	private final static String DATABASE_NAME = "mDiaryDB";
+	private final static String DATABASE_NAME = "mDiaryDB.db";
 	
 	private static DatabaseHandler mInstance = new DatabaseHandler();
 
@@ -60,7 +60,7 @@ public class DatabaseHandler {
 		
 		private void updateDatabase(SQLiteDatabase db) {
 			db.execSQL("CREATE TABLE IF NOT EXISTS " + DiaryProvider.TABLE_NAME + " ("
-					+ DiaryProvider.Columns._ID				+ " INTEGER PRIMARY KEY AUTOINCREMENT,"
+					+ DiaryProvider.Columns._ID				+ " LONG PRIMARY KEY,"
 					+ DiaryProvider.Columns.TEXT_CONTENT	+ " TEXT,"
 					+ DiaryProvider.Columns.CREATED_DATE	+ " LONG,"
 					+ DiaryProvider.Columns.EVENT_ID		+ " TEXT"

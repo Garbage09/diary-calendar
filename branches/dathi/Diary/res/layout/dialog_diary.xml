@@ -4,10 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/contentDiaryTextView"
+    <EditText
+        android:id="@+id/contentDiaryEditText"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="250dp"
+        android:inputType="textMultiLine"
         android:background="@color/pink" />
 
     <Button

@@ -27,9 +27,6 @@ public class DiaryListAdapter extends ArrayAdapter<Diary> {
 		mContext = context;
 		mResource = resource;
 	}
-
-	private static int countNull = 0;
-	private static int count = 0;
 	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -43,9 +40,8 @@ public class DiaryListAdapter extends ArrayAdapter<Diary> {
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = li.inflate(mResource, null);
 			Log.i("DiaryListAdapter", "VIEW = NULL, position: " + position);
-			countNull++;
 		}
-		count++;
+
 
 		TextView dayTextView = (TextView) view.findViewById(R.id.dayTextView);
 		TextView dowTextView = (TextView) view
@@ -57,21 +53,20 @@ public class DiaryListAdapter extends ArrayAdapter<Diary> {
 		c.add(Calendar.DATE, currentRealPostion - SettingConstants.HALF_MAX_VALUE);
 		
 		int year = c.get(Calendar.YEAR);
-		int month = c.get(Calendar.MONTH) + 1;
-		int dom = c.get(Calendar.DAY_OF_MONTH);
+		int month = c.get(Calendar.MONTH) + 1;		
 		int numDaysInMonth = c.getActualMaximum(Calendar.DAY_OF_MONTH);
+		int dom = c.get(Calendar.DAY_OF_MONTH);
 		
 		int dow = c.get(Calendar.DAY_OF_WEEK);
 		String strDow = Utils.getNameDayOfWeek(dow);
-		String strDiary = c.getTime().toString() + " - " + month + " - " + numDaysInMonth;
-
+		
 		dayTextView.setText(String.valueOf(dom));
 		dowTextView.setText(strDow);
 		
-		//Diary diary = new Diary(strDiary, null, c.getTimeInMillis()/1000);		
-		diaryTextView.setText(String.valueOf(countNull) + " - " + String.valueOf(count));
-		//DiaryProvider.addDiary(mContext, diary);
-		
+		Diary diary = DiaryProvider.getDiaryById(mContext, currentRealPostion);
+		if(diary != null) {
+			diaryTextView.setText(diary.getContentDiary());	
+		}		
 		
 		return view;
 	}
