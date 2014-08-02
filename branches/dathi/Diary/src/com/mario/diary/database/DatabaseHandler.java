@@ -14,10 +14,10 @@ public class DatabaseHandler {
 	private final static String DATABASE_NAME = "mDiaryDB.db";
 	
 	private static DatabaseHandler mInstance = new DatabaseHandler();
-
+	
 	private static SQLiteDatabase mWritable;
 	private static SQLiteDatabase mReadable;
-
+	
 	public synchronized static DatabaseHandler getDatabase(Context context) {
 		if ((mWritable == null) || (mReadable == null)) {
 			DatabaseHelper helper = new DatabaseHelper(context, DATABASE_NAME);
@@ -30,7 +30,7 @@ public class DatabaseHandler {
 		}
 		return mInstance;
 	}
-
+	
 	@Override
 	protected void finalize() {
 		if ((mWritable != null) && mWritable.isOpen()) {
@@ -40,18 +40,18 @@ public class DatabaseHandler {
 			mReadable.close();
 		}
 	}
-		
+	
 	private static final class DatabaseHelper extends SQLiteOpenHelper {
 
 		public DatabaseHelper(Context context, String name) {
 			super(context, name, null, DATABASE_VERSION);
 		}
-
+		
 		@Override
 		public void onCreate(SQLiteDatabase db) {
 			updateDatabase(db);
 		}	
-
+		
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 			db.execSQL("DROP TABLE IF EXISTS " + DiaryProvider.TABLE_NAME);
@@ -60,13 +60,12 @@ public class DatabaseHandler {
 		
 		private void updateDatabase(SQLiteDatabase db) {
 			db.execSQL("CREATE TABLE IF NOT EXISTS " + DiaryProvider.TABLE_NAME + " ("
-					+ DiaryProvider.Columns._ID				+ " LONG PRIMARY KEY,"
-					+ DiaryProvider.Columns.TEXT_CONTENT	+ " TEXT,"
-					+ DiaryProvider.Columns.CREATED_DATE	+ " LONG,"
-					+ DiaryProvider.Columns.EVENT_ID		+ " TEXT"
+					+ DiaryProvider.Columns._ID + " LONG PRIMARY KEY,"
+					+ DiaryProvider.Columns.TEXT_CONTENT + " TEXT,"
+					+ DiaryProvider.Columns.CREATED_DATE + " LONG,"
+					+ DiaryProvider.Columns.EVENT_ID + " TEXT"
 					+ ");");
-		}
-		
+		}		
 	}
 
 	public SQLiteDatabase getReadableDatabase() {

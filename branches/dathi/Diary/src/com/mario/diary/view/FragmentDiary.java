@@ -1,10 +1,12 @@
 package com.mario.diary.view;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,31 +60,49 @@ public class FragmentDiary extends android.support.v4.app.Fragment {
 				Log.i("FragmentDiary", "id: " + id);
 				final Dialog dialog = new Dialog(context);
 				dialog.setContentView(R.layout.dialog_diary);
-				dialog.setTitle("Add diary");
+				dialog.setTitle("Add Diary");
+				
+				// diary Id
 				final int currentRealPostion = position;
+				
 				Button dialogButton = (Button) dialog
 						.findViewById(R.id.okContentDiaryButton);
 				dialogButton.setOnClickListener(new OnClickListener() {
 
 					@Override
 					public void onClick(View v) {
-						// TODO Auto-generated method stub
+						// diary content
 						final EditText editText = (EditText) dialog
 								.findViewById(R.id.contentDiaryEditText);
 						String diaryContent = editText.getText().toString();
-						String eventId = null;
-						Calendar c = Calendar.getInstance();
-						c.add(Calendar.DATE, currentRealPostion
-								- SettingConstants.HALF_MAX_VALUE);
-						long dateCreated = c.getTimeInMillis();
-						Diary diary = new Diary(currentRealPostion,
-								diaryContent, eventId, dateCreated);
-						DiaryProvider.addDiary(context, diary);
-
-						TextView diaryTextView = (TextView) view
-								.findViewById(R.id.diaryTextView);
-						diaryTextView.setText(diaryContent);
-
+							
+						Calendar c1 = Calendar.getInstance();
+						String createDate1 = DateFormat.format("dd/MM/yyyy hh:mm:ss", new Date(c1.getTimeInMillis())).toString();
+						
+						if (!diaryContent.isEmpty()) {
+							// event Id
+							String eventId = null;
+							
+							// date created
+							Calendar c = Calendar.getInstance();
+							c.add(Calendar.DATE, currentRealPostion - SettingConstants.HALF_MAX_VALUE);
+							long dateCreated = c.getTimeInMillis();
+							// debug					
+							String createDate = DateFormat.format("dd/MM/yyyy hh:mm:ss", new Date(dateCreated)).toString();
+							Log.i("FragmentDiary - Construct Diary", "createDate: " + createDate);
+														
+							// construct diary object
+							Diary diary = new Diary(currentRealPostion, diaryContent, eventId, dateCreated);
+							
+							// add diary to database 
+							DiaryProvider.addDiary(context, diary);		
+							
+							// set diary content to item diaries list  
+							TextView diaryTextView = (TextView) view.findViewById(R.id.diaryTextView);
+							diaryTextView.setText(diaryContent);
+						}
+						
+						// close "Add" dialog
 						dialog.dismiss();
 					}
 				});
