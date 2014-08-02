@@ -1,7 +1,10 @@
 package com.mario.diary.adapter;
 
 import java.util.Calendar;
+import java.util.Date;
+
 import android.content.Context;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,15 +36,13 @@ public class DiaryListAdapter extends ArrayAdapter<Diary> {
 		// TODO Auto-generated method stub
 		View view = convertView;		
 		Log.i("DiaryListAdapter", "position: " + position);
-		Log.i("DiaryListAdapter", "currentRealPostion: " + currentRealPostion);
-		
+				
 		if (view == null) {
 			LayoutInflater li = (LayoutInflater) mContext
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = li.inflate(mResource, null);
 			Log.i("DiaryListAdapter", "VIEW = NULL, position: " + position);
 		}
-
 
 		TextView dayTextView = (TextView) view.findViewById(R.id.dayTextView);
 		TextView dowTextView = (TextView) view
@@ -61,10 +62,19 @@ public class DiaryListAdapter extends ArrayAdapter<Diary> {
 		String strDow = Utils.getNameDayOfWeek(dow);
 		
 		dayTextView.setText(String.valueOf(dom));
-		dowTextView.setText(strDow);
-		
+		dowTextView.setText(strDow);					
+				
 		Diary diary = DiaryProvider.getDiaryById(mContext, currentRealPostion);
+				
 		if(diary != null) {
+			Log.i("DiaryListAdapter", "year: " + year);
+			Log.i("DiaryListAdapter", "month: " + month);
+			Log.i("DiaryListAdapter", "day of month: " + dom);
+			Log.i("DiaryListAdapter", "diaryId = currentRealPostion: " + currentRealPostion);
+			String createDate = DateFormat.format("dd/MM/yyyy hh:mm:ss", new Date(diary.getCreatedDate())).toString();
+			Log.i("DiaryListAdapter", "createDate: " + createDate);
+			Log.i("DiaryListAdapter", "diaryContent: " + diary.getContentDiary());
+			
 			diaryTextView.setText(diary.getContentDiary());	
 		}		
 		

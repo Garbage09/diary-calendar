@@ -8,7 +8,7 @@
         android:id="@+id/contentDiaryEditText"
         android:layout_width="fill_parent"
         android:layout_height="250dp"
-        android:inputType="textMultiLine"
+        android:inputType="text"
         android:background="@color/pink" />
 
     <Button
